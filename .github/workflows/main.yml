@@ -1,0 +1,31 @@
+name: main
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *' # 0時更新
+jobs:
+  backend:
+    name: ruby
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3.1' 
+      - name: run ruby
+        run: ruby main.rb
+        working-directory: ${{ github.workspace }}/back
+      - name: copy file
+        run: |
+          cp -r ./data ../front
+        working-directory: ${{ github.workspace }}/back
+      - name: git setting
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: Commit files
+        run: |
+          git add -A
+          if ! git diff-index --quiet HEAD --; then git commit -a -m "Update json (By GitHub Actions)"; fi;
+          git push
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
