@@ -1,0 +1,40 @@
+html,
+body {
+  padding: 10;
+  margin: 10;
+  background-color: rgb(230, 233, 236);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#link {
+  color: rgb(60, 81, 114);
+  text-decoration: underline;
+}
+
+#header {
+  font-size: 14px;
+}
+
+#desc {
+  font-size: 15px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
