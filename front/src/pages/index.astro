@@ -1,0 +1,23 @@
+---
+import fs from "fs";
+import path from "path";
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+
+const jsonDirectory = path.join(process.cwd(), "data");
+const fileNames = fs.readdirSync(jsonDirectory).reverse().map((filename) => {return filename.split(".")[0]})
+---
+<Layout title="nocdaily">
+	<main>
+		<h1>nocdaily</h1>
+		<ul>
+      {fileNames.map((fileName) => <li class="custom-li"><a href={"daily/" + fileName}>{fileName}</a></li>)}
+		</ul>
+	</main>
+</Layout>
+
+<style>
+.custom-li {
+  padding-bottom: 3px;
+}
+</style>

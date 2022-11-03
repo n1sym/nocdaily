@@ -1,0 +1,38 @@
+---
+import fs from "fs";
+import path from "path";
+import Layout from '../../layouts/Layout.astro';
+import Accordion from '../../components/Accordion.svelte'
+
+export async function getStaticPaths() {
+  const jsonDirectory = path.join(process.cwd(), "data");
+  const fileNames = fs.readdirSync(jsonDirectory).map((filename) => {return filename.split(".")[0]})
+  const pages: any[] = []
+  fileNames.forEach((fileName) => {
+    const fullPath = path.join(jsonDirectory, fileName + ".json");
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const json = JSON.parse(fileContents);
+    pages.push({ params: { daily: fileName}, props: {json} })
+  })
+  return pages;
+}
+
+const { daily } = Astro.params;
+const { json } = Astro.props;
+---
+<Layout title={daily}>
+	<h1>{daily}</h1>
+  {json.map((unit: any) => 
+    <h4>
+      <a href={unit.url} target="_blank" rel="noopener">{unit.title}</a>
+    </h4>
+    <p>{unit.state} {unit.counts}</p>
+    <Accordion desc={unit.desc} keywords={unit.keywords} client:load></Accordion>
+  )}
+</Layout>
+
+<style>
+.custom-li {
+  padding-bottom: 3px;
+}
+</style>
